@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare,   faGear, faBell } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button } from "react-bootstrap";
-
+import logo from "./../Logo128.png";
 const Header = () => {
     const [show, setShow] = useState(false); 
     const handleClose = () => setShow(false);
@@ -15,10 +15,18 @@ const Header = () => {
                         <FontAwesomeIcon icon={faShare} size="xl" style={{color: "#d94039",}} />
                     </button>
                 </div>
+                <div className="logo">
+                    <img src={logo}  style={{borderRadius:"50%"}}></img>
+                </div>
                 <h1 className="home-text"> 
-                            Anasayfa  オープンソーダ
-                     </h1>
-                <div className="bell-gear">
+                        Anasayfa  
+                </h1>
+                <h1>
+                    
+                </h1>
+                {
+                    /*
+                      <div className="bell-gear">
                     <button  className="btn  ">
                         <FontAwesomeIcon  icon={faGear} size="xl" style={{color: "#d94039",}}  />   
                     </button>
@@ -26,6 +34,9 @@ const Header = () => {
                         <FontAwesomeIcon  icon={faBell} size="xl" style={{color: "#d94039",}}  />   
                     </button>
                 </div>
+                    */ 
+                }
+              
                 <Modal show={show} onHide={handleClose} className='modal'>
             <Modal.Header closeButton>
             <Modal.Title >

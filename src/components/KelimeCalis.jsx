@@ -47,7 +47,32 @@ const KelimeCalis = () => {
     "はじめまして": "hajimemashite(Tanıştığımıza memnun oldum)",
     "あした": "ashita(Yarın)",
     "あさ": "asa(Sabah)",
-    "おやつ": "oyatsu(Ara öğün)"
+    "おやつ": "oyatsu(Ara öğün)",
+    "あいさつ": "aisatsu(Selamlaşma)",
+    "げんき": "genki(İyiyim)",
+    "げんきですか": "genki desu ka?(Nasılısın?)",
+    "べんきょう": "benkyō(Çalışmak)",
+    "がっこう": "gakkō(Okul)",
+    "せんせい": "sensei(Öğretmen)",
+    "ともだち": "tomodachi(Arkadaş)",
+    "にほん": "nihon(Japonya)",
+    "にほんご": "nihongo(Japonca)",
+    "すき": "suki(Sevmek)",
+    "すきです": "suki desu(Seviyorum)",
+    "だいすき": "daisuki(Çok sevmek)",
+    "すきな": "suki na(Sevdiğim)",
+    "おうち": "ouchi(Ev)",
+    "うえん": "uen(Park)",
+    "あそぶ": "asobou(Oynamak)",
+    "たべる": "taberu(Yemek)",
+    "のむ": "nomu(İçmek)",
+    "ねむる": "neru(Uyumak)",
+    "みる": "miru(İzlemek)",
+    "よむ": "yomu(Okumak)",
+    "いく": "iku(Gitmek)",
+    "くる": "kuru(Gelmek)",
+    "ある": "aru(Var olmak)",
+    "ない": "nai(Yok olmak)"
   };
   
 
@@ -57,9 +82,19 @@ const KelimeCalis = () => {
       "こんにちは", "ありがとう", "すみません", "おはよう", "さようなら",
       "いただきます", "すごい", "おめでとう", "ありがとう", "いいえ",
       "おやすみ", "おばあさん", "すし", "たべる", "うれしい",
-      "かわいい", "はじめまして", "あした", "あさ", "おやつ"
+      "かわいい", "はじめまして", "あした", "あさ", "おやつ",
+      "あいさつ", "げんき", "げんきですか", "べんきょう", "がっこう",
+      "せんせい", "ともだち", "にほん", "にほんご", "すき",
+      "すきです", "だいすき", "すきな", "おうち", "うえん",
+      "あそぶ", "たべる", "のむ", "ねむる", "みる",
+      "よむ", "いく", "くる", "ある", "ない"
     ]
   };
+  const elemanSayisi = Object.keys(hiraganaData.list1).length;
+  console.log("Eleman Sayısı:", elemanSayisi);
+  
+
+  
   
 
   // Seçilen listeye göre hiragana listesini alma :)
@@ -201,6 +236,11 @@ const KelimeCalis = () => {
             <div className=''>
               <div className='score-text' style={{fontSize:"48px"}}>
                 Score: {clientScore}
+                 
+              </div>
+              <div className='score-text' style={{fontSize:"24px"}}>
+                 
+                Quiz kümesindeki kelime sayısı {elemanSayisi}
               </div>
               <br></br>
             <div className='true-text-k '>
