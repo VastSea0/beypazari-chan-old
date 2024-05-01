@@ -5,6 +5,7 @@ import './styles/Zirve.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './components/Home';
 import Study from './components/Study';
+import KelimeCalis from './components/KelimeCalis';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />   
           <Route path="/calis" element={<Study />} />   
-           
+          <Route path='/calis/kelime' element={<KelimeCalis />} />
         </Routes>
       </div>
     </Router>

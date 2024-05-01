@@ -18,3 +18,8 @@ Tarayıcı konsolunda oluşan olası hataları görebileceksin
 # }
 ## OpenSoda nedir
 OpenSoda Egehan KAHRAMAN tarafından VastSea Open-Source projelerine destek olması için geliştirilen bir Japonca öğrenme uygulamasıdır...
+
+# Sürüm notları:
+- 1.0.0: proje oluşturuldu
+- 1.0.1: Hiragana karakter listesi eklendi ve Quiz oluşturldu
+- 1.0.2: Hiragana Kelime listesi eklendi ve arayüz geliştirildi
