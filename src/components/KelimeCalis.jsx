@@ -5,7 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import Form from "react-bootstrap/Form";
 import Alert from 'react-bootstrap/Alert';
-
+import Player from './Player';
 const KelimeCalis = () => {
   // Seçilen planın durumu ve setlenmesi :)
   const [selectedPlan, setSelectedPlan] = useState("list1");  // 60 Karakter
@@ -233,7 +233,7 @@ const KelimeCalis = () => {
         <div className='list1 container'>
           <br />
           <center>
-            <div className=''>
+            <div className='navbar'>
               <div className='score-text' style={{fontSize:"48px"}}>
                 Score: {clientScore}
                  
@@ -242,7 +242,10 @@ const KelimeCalis = () => {
                  
                 Quiz kümesindeki kelime sayısı {elemanSayisi}
               </div>
+              <Player></Player>
               <br></br>
+              </div>
+              <div>
             <div className='true-text-k '>
          
               <div> {/* Display https://vastseablog.com the romaji equivalent */}

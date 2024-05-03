@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare,   faGear, faBell } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button } from "react-bootstrap";
 import logo from "./../Logo128.png";
+import Player from "./Player";
 const Header = () => {
     const [show, setShow] = useState(false); 
     const handleClose = () => setShow(false);
@@ -22,6 +23,7 @@ const Header = () => {
                         Anasayfa  
                 </h1>
                 <h1>
+              <Player ></Player>
                     
                 </h1>
                 {

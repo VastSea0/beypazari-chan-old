@@ -3,8 +3,8 @@
 // Rota: /calis
 
 import React, { useState, useEffect } from 'react';
-import Form from "react-bootstrap/Form";
-import Alert from 'react-bootstrap/Alert';
+import { Modal, Button } from "react-bootstrap";
+import Player from './Player';
 
 const Study = () => {
   // Seçilen planın durumu ve setlenmesi :)
@@ -25,6 +25,8 @@ const Study = () => {
   const [wrongMessageVisible, setWrongMessageVisible] = useState(false);  
   // sayi falan
   const [sayiVal, setSayiVal] = useState(1);
+  // Şarkı modal
+
 
   // Hiragana karakterlerinin Romaji karşılıkları
   const hiraganaRomajiMapping = {
@@ -142,6 +144,7 @@ const Study = () => {
   
   };
 
+   
   function helo(){
     console.log("değişmeden:", sayiVal)
     setSayiVal(sayiVal + 1)
@@ -204,11 +207,16 @@ const Study = () => {
         <div className='list1 container'>
           <br />
           <center>
-            <div className=''>
+            <div className='navbar  ' style={{paddingBottom:"50px"}}>
               <div className='score-text' style={{fontSize:"48px"}}>
                 Score: {clientScore}
               </div>
+             
+              <Player ></Player>
+            
+              </div>
               <br></br>
+              <div >
             <div className='true-text '>
          
               <div> {/* Display https://vastseablog.com the romaji equivalent */}
@@ -261,6 +269,7 @@ const Study = () => {
           </center>
         </div>
       </div>
+    
     </div>
   );
 };
