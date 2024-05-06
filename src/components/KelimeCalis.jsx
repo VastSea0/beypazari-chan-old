@@ -6,6 +6,8 @@ import React, { useState, useEffect } from 'react';
 import Form from "react-bootstrap/Form";
 import Alert from 'react-bootstrap/Alert';
 import Player from './Player';
+import { auth, firebase, firestore } from '../firebase/firebase';
+
 const KelimeCalis = () => {
   // Seçilen planın durumu ve setlenmesi :)
   const [selectedPlan, setSelectedPlan] = useState("list1");  // 60 Karakter
@@ -25,6 +27,9 @@ const KelimeCalis = () => {
   const [wrongMessageVisible, setWrongMessageVisible] = useState(false);  
   // sayi falan
   const [sayiVal, setSayiVal] = useState(1);
+ 
+  // Oturum bilgilerini çek ve yaz
+  const [user, setUser] = useState(null);
 
   // Hiragana karakterlerinin Romaji karşılıkları
   const hiraganaRomajiMapping = {
@@ -92,9 +97,49 @@ const KelimeCalis = () => {
   };
   const elemanSayisi = Object.keys(hiraganaData.list1).length;
   console.log("Eleman Sayısı:", elemanSayisi);
-  
 
-  
+  useEffect(() => {
+    // Firebase Authentication kullanarak oturum açmış olan kullanıcıyı alın
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+        if (user) {
+            // Oturum açılmışsa, kullanıcıyı state'e kaydedin
+            setUser(user);
+            // Kullanıcının userScore değerini firestore'dan alın
+            const userRef = firestore.collection('users').doc(user.uid);
+            userRef.get().then((doc) => {
+            if (doc.exists) {
+                const userData = doc.data();
+                setClientScore(userData.userScore);
+            }
+            });
+
+        } else {
+            // Oturum açılmamışsa, kullanıcıyı state'ten kaldırın
+            setUser(null);
+        }
+    });
+
+    // Aboneliği temizleyin
+    return () => unsubscribe();
+}, []); // Effect, yalnızca bir kere çalıştırılsın ve bileşenin sıfırlanmasında temizlensin
+  const handleUpdateScore = async () => {
+    if (user) {
+      // Kullanıcının belgesine referans oluştur
+      const userRef = firestore.collection('users').doc(user.uid);
+
+      // Kaydetmek istediğiniz bilgileri hazırlayın
+      const yeniBilgiler = {
+        userScore: clientScore + 1,
+      };
+      // Bilgileri kullanıcı belgesine ekleyin
+      await userRef.update(yeniBilgiler);
+      // Başarılı kaydetme mesajı gösterin
+      console.log("Kullanıcı Bilgileri Kaydedildi!");
+    } else {
+      // Oturum açmamışsa hata mesajı gösterin
+      console.error("Kullanıcı Oturumu Açılmamış!");
+    }
+  };
   
 
   // Seçilen listeye göre hiragana listesini alma :)
@@ -161,6 +206,7 @@ const KelimeCalis = () => {
       generateAnswerOptions();  
       console.log("Correct! \n Score: " + (clientScore + 1));
       localStorage.setItem('skor', clientScore + 1);  
+      handleUpdateScore();
     }
     // Yanlış cevap durumunda
     if ( selectedChar !== currentHiragana) {
@@ -204,9 +250,9 @@ const KelimeCalis = () => {
   
 
   // Şu anki hiragana karakteri değiştiğinde
-  useEffect(() => {
+  function handleBaslat(){ 
     generateAnswerOptions();
-  }, [currentHiragana]);
+  };
 
   // Şu anki hiragana karakteri değiştiğinde
   useEffect(() => {
@@ -291,7 +337,7 @@ const KelimeCalis = () => {
           <button className='btn-p'>
           <a className='t' style={{textDecoration:"none"}} href='/'>  <h1 className='t' style={{color:"white"}}>Geri</h1> </a>
           </button>
-          <button className='btn-p' onClick={() => helo()}>
+          <button className='btn-p' onClick={() => handleBaslat()}>
             <h1>helo</h1>
           </button>
         </div>

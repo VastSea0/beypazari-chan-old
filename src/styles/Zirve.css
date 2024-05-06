@@ -275,3 +275,34 @@ input[type="range"] {
     width: 50%;
   }
 }
+
+ 
+
+.table th,
+.table td {
+  padding: 10px; /* Hücrelere dolgu ekle */
+  border: 1px solid #ddd; /* Hücrelere kenarlık ekle */
+  text-align: left; /* Metni sola hizala */
+}
+
+.thead,  .th {
+  background-color: #f2f2f2; /* Başlık satırı için arkaplan rengi ayarla */
+  font-weight: bold; /* Başlık metnini kalın yap */
+  padding: 10px;
+  margin: 5px;
+}
+
+.table-div{
+  background-color: #1c1c1d;
+  padding: 10px;
+  margin: 5px;
+  margin: auto; /* Tabloyu yatay olarak ortala */
+  border-collapse: collapse; /* Varsayılan hücre boşluklarını kaldır */
+
+
+}
+.footer {
+  position: fixed; /* Sabitleme için fixed pozisyon */
+  bottom: 0; /* Alttan 0 piksel boşluk */
+  width: 100%; /* Tam genişlik */
+}

@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShare,   faGear, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faShare,   faGear, faBell, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button } from "react-bootstrap";
 import logo from "./../Logo128.png";
 import Player from "./Player";
+import { firestore, auth } from '../firebase/firebase'; // Firebase'den firestore ve auth modüllerini içe aktarın
 const Header = () => {
     const [show, setShow] = useState(false); 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [user, setUser] = useState(null);
 
+    const handleLogout = () => {
+        auth.signOut()
+          .then(() => {
+            // Kullanıcı oturumu başarıyla kapattığında kullanıcı durumunu null olarak ayarlayın
+            setUser(null);
+          })
+          .catch((error) => {
+            console.error('Oturum kapatma hatası:', error);
+          });
+    };
     return(
             <div className="header navbar">
                 <div className="share">
@@ -22,7 +34,11 @@ const Header = () => {
                 <h1 className="home-text"> 
                         Anasayfa  
                 </h1>
+                <button  className="btn " onClick={() => {handleLogout()}}>
+                        <FontAwesomeIcon icon={faPowerOff} size="xl" style={{color: "#d94039",}} />
+                    </button>
                 <h1>
+
               <Player ></Player>
                     
                 </h1>
@@ -60,7 +76,7 @@ const Header = () => {
                         <code>
                         Sende OpenSoda ile Japon dilini geliştir! 
                         <br></br>
-                       <a className="https://opensoda.web.app ">  https://opensoda.web.app  </a> 
+                       <a className="https://opensoda.vercel.app ">  https://opensoda.vercel.app  </a> 
                         </code>
                     </li>
                 </ul>

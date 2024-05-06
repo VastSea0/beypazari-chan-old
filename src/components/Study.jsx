@@ -5,6 +5,8 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from "react-bootstrap";
 import Player from './Player';
+import { auth, firebase, firestore } from '../firebase/firebase';
+
 
 const Study = () => {
   // Seçilen planın durumu ve setlenmesi :)
@@ -25,7 +27,52 @@ const Study = () => {
   const [wrongMessageVisible, setWrongMessageVisible] = useState(false);  
   // sayi falan
   const [sayiVal, setSayiVal] = useState(1);
-  // Şarkı modal
+  // Oturum bilgilerini çek ve yaz
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Firebase Authentication kullanarak oturum açmış olan kullanıcıyı alın
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+        if (user) {
+            // Oturum açılmışsa, kullanıcıyı state'e kaydedin
+            setUser(user);
+            // Kullanıcının userScore değerini firestore'dan alın
+            const userRef = firestore.collection('users').doc(user.uid);
+            userRef.get().then((doc) => {
+            if (doc.exists) {
+                const userData = doc.data();
+                setClientScore(userData.userScore);
+            }
+            });
+
+        } else {
+            // Oturum açılmamışsa, kullanıcıyı state'ten kaldırın
+            setUser(null);
+        }
+    });
+
+    // Aboneliği temizleyin
+    return () => unsubscribe();
+}, []); // Effect, yalnızca bir kere çalıştırılsın ve bileşenin sıfırlanmasında temizlensin
+  const handleUpdateScore = async () => {
+    if (user) {
+      // Kullanıcının belgesine referans oluştur
+      const userRef = firestore.collection('users').doc(user.uid);
+
+      // Kaydetmek istediğiniz bilgileri hazırlayın
+      const yeniBilgiler = {
+        userScore: clientScore + 1,
+      };
+      // Bilgileri kullanıcı belgesine ekleyin
+      await userRef.update(yeniBilgiler);
+      // Başarılı kaydetme mesajı gösterin
+      console.log("Kullanıcı Bilgileri Kaydedildi!");
+    } else {
+      // Oturum açmamışsa hata mesajı gösterin
+      console.error("Kullanıcı Oturumu Açılmamış!");
+    }
+  };
+
 
 
   // Hiragana karakterlerinin Romaji karşılıkları
@@ -97,6 +144,44 @@ const Study = () => {
     }
   }; */
 
+  
+
+  /*
+  function scoreUp(i) {
+    clientScore = clientScore + 1;
+    console.log("Score:", clientScore);
+
+  }
+  */
+
+  useEffect(() => {
+    console.log("Mevcut Hiragana:", currentHiragana);
+  }, [currentHiragana]);
+
+  useEffect(() => {
+    fetchHiraganaList();
+  }, [selectedPlan]);
+
+
+  // Butona tıklandığında
+  const handleButtonClick = (selectedChar) => {
+    setCurrentHiragana(selectedChar);  
+    if (selectedChar === currentHiragana) {
+      // Doğru cevap durumunda
+      setClientScore(clientScore + 1);  
+      generateAnswerOptions(); // Fonksiyonu buraya taşıyın
+      console.log("Correct! \n Score: " + (clientScore + 1));
+      localStorage.setItem('skor', clientScore + 1);  
+      handleUpdateScore();
+    } else {
+      setAlertShow(true)
+      setWrongMessageVisible(true);  
+      setTimeout(() => setWrongMessageVisible(false), 1000); 
+    }
+  
+  };
+
+
   // Cevap seçeneklerini oluşturma
   
   const generateAnswerOptions = () => {
@@ -115,34 +200,6 @@ const Study = () => {
     // Cevapları karıştır
     setAnswerOptions(answerOptions.sort(() => Math.random() - 0.5));  
   };
-  
-
-  /*
-  function scoreUp(i) {
-    clientScore = clientScore + 1;
-    console.log("Score:", clientScore);
-
-  }
-  */
-
-  // Butona tıklandığında
-  const handleButtonClick = (selectedChar) => {
-    setCurrentHiragana(selectedChar);  
-    if (selectedChar === currentHiragana) {
-      // Doğru cevap durumunda
-      setClientScore(clientScore + 1);  
-      generateAnswerOptions();  
-      console.log("Correct! \n Score: " + (clientScore + 1));
-      localStorage.setItem('skor', clientScore + 1);  
-    }
-    // Yanlış cevap durumunda
-    if ( selectedChar !== currentHiragana) {
-      setAlertShow(true)
-      setWrongMessageVisible(true);  
-      setTimeout(() => setWrongMessageVisible(false), 1000); 
-    }
-  
-  };
 
    
   function helo(){
@@ -158,17 +215,8 @@ const Study = () => {
 
   }
 
-  // Seçilen plan değiştiğinde hiragana listesini güncelle
-  useEffect(() => {
-    fetchHiraganaList();
-  }, [selectedPlan]);
-
-  // Şu anki hiragana karakteri değiştiğinde
-  useEffect(() => {
-    //  console.log("Current Hiragana:", currentHiragana);
  
-  }, [currentHiragana]);
-  
+   
   useEffect(() => {
     const saklananSkor = localStorage.getItem('skor');
     if (saklananSkor) {
@@ -176,16 +224,15 @@ const Study = () => {
     }
   }, []);
   
-
-  // Şu anki hiragana karakteri değiştiğinde
-  useEffect(() => {
+ 
+ 
+  function handleBaslat(){ 
     generateAnswerOptions();
-  }, [currentHiragana]);
+  }
+  
 
-  // Şu anki hiragana karakteri değiştiğinde
-  useEffect(() => {
-  }, [currentHiragana]);
-
+ 
+ 
   // Component'i döndür
   return (
     <div className='study-page'>
@@ -262,7 +309,7 @@ const Study = () => {
           <button className='btn-p'>
           <a className='t' style={{textDecoration:"none"}} href='/'>  <h1 className='t' style={{color:"white"}}>Geri</h1> </a>
           </button>
-          <button className='btn-p' onClick={() => helo()}>
+          <button className='btn-p' onClick={() => handleBaslat()}>
             <h1>helo</h1>
           </button>
         </div>

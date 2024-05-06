@@ -6,22 +6,96 @@ import ButtonP from "./ButtonPrimary";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShare,   faGear, faBell, faLanguage, } from '@fortawesome/free-solid-svg-icons';
+import { faShare,   faGear, faBell, faLanguage, faSignIn, } from '@fortawesome/free-solid-svg-icons';
+import Login from './login';
+import { firestore, auth } from '../firebase/firebase'; // Firebase'den firestore ve auth modüllerini içe aktarın
+import RandomCat from './randomCat';
 const HomePage = () => {
     const [pValue, setPValue] = useState(false);
     const [show, setShow] = useState(false);
     const [kelimeshow, setKelimeShow] = useState(false);
-
+    const [user, setUser] = useState(null);
     const [clientScore, setClientScore] = useState(0);  
+    const [usersData, setUsersData] = useState([]);
+
+    
    
+  
+
     useEffect(() => {
-        const saklananSkor = localStorage.getItem('skor');
+        // Firebase Authentication kullanarak oturum açmış olan kullanıcıyı alın
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                // Oturum açılmışsa, kullanıcıyı state'e kaydedin
+                setUser(user);
+                // Kullanıcının userScore değerini firestore'dan alın
+                const userRef = firestore.collection('users').doc(user.uid);
+                userRef.get().then((doc) => {
+                if (doc.exists) {
+                    const userData = doc.data();
+                    setClientScore(userData.userScore);
+                }
+                });
+
+            } else {
+                // Oturum açılmamışsa, kullanıcıyı state'ten kaldırın
+                setUser(null);
+            }
+        });
+
+        // Aboneliği temizleyin
+        return () => unsubscribe();
+    }, []); // Effect, yalnızca bir kere çalıştırılsın ve bileşenin sıfırlanmasında temizlensin
+   /* useEffect(() => {
+        /*const saklananSkor = localStorage.getItem('skor');
         if (saklananSkor) {
           setClientScore(parseInt(saklananSkor));
-        }
-      }, [clientScore]);
-      
-   
+        } 
+        setClientScore(user.userScore)
+      }, [clientScore]); */
+    /*
+ Buraya bir kaç tane not düşeceğim... 
+ Projeyi geliştirmek isteyen kişiler ve benim için işe yarayacak
+
+ Öncelikle 
+    if (!userDoc.exists) {
+        // Eğer yeni kullanıcı ise bilgilerini veri tabanına kaydet
+        await userRef.set({
+          displayName: user.displayName,
+          email: user.email,
+          userId: user.uid,
+          browserInfo: browserInfo
+          // buraya geri kalan bilgileri ekleyebilirsin
+        });
+      }
+  
+Yukarıda ki kod parçasında verdiğim gibi kullanıcının "uid" değerine veri tabanına ekliyoruz.
+çünkü o kullanıcının belgesine erişmek istediğim zaman bunu kullanmamız gerecek...
+ve yine kullanıcıya veri yazdırabilmek için... 
+const handleVeriKaydet = async () => {
+    if (user) {
+      // Kullanıcının belgesine referans oluştur
+      const userRef = firestore.collection('users').doc(user.uid);
+
+      // Kaydetmek istediğiniz bilgileri hazırlayın
+      const yeniBilgiler = {
+        ekBilgi1: "Değer 1",
+        ekBilgi2: "Değer 2",
+        // ... Diğer ek bilgiler
+      };
+
+      // Bilgileri kullanıcı belgesine ekleyin
+      await userRef.update(yeniBilgiler);
+
+      // Başarılı kaydetme mesajı gösterin
+      console.log("Kullanıcı Bilgileri Kaydedildi!");
+    } else {
+      // Oturum açmamışsa hata mesajı gösterin
+      console.error("Kullanıcı Oturumu Açılmamış!");
+    }
+  };
+ 
+ */
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     
@@ -34,6 +108,37 @@ const HomePage = () => {
             setPValue(true)
         }
     }, [])
+
+    useEffect(() => {
+        // `users` koleksiyonuna erişin
+        const usersRef = firestore.collection('users');
+      
+        // Verileri alındığında yapılacaklar
+        usersRef.get().then((querySnapshot) => {
+          const users = []; // Kullanıcı verilerini tutacak dizi (mutasyonu önlemek için)
+      
+          // Her belge için kullanıcı bilgilerini işle
+          querySnapshot.forEach((doc) => {
+            const userData = doc.data();
+            users.push({
+              username: userData.displayName || doc.id, // Kullanıcı adı (varsa) yoksa belge kimliği
+              score: userData.userScore || 0, // Skor (varsa) yoksa 0
+            });
+          });
+      
+          // Toplanan kullanıcı verilerini state'e aktarın
+          setUsersData(users);
+        });
+      
+        // Bu efekt sadece bir kere çalıştırılır (bağımlılık yok)
+      }, []);
+
+    
+    if(!user){
+        return(<RandomCat></RandomCat>)
+    }
+
+
       
     return(
         <div className="homeApp">
@@ -47,6 +152,7 @@ const HomePage = () => {
                             <div className="col-6 ">
                             <h3>Istatiklerin</h3>
                             <p>Su ana kadar yaptigin yuzdelik  dilim</p>
+                            {user ? (<p> <b>Oturum Sahibi:</b> {user.displayName}</p>) : (<p>Oturum Açın</p>)}
                             </div>
                             <div className="col-6 ">
                             <div style={{ width: 128, height: 128 }}>
@@ -68,9 +174,8 @@ const HomePage = () => {
                         </span>
                         <span className="st ">
                     
-                              
-                    <FontAwesomeIcon icon={faLanguage} size='5x' style={{color: "#d94039",}} />
-
+                     {user ? (<> <FontAwesomeIcon icon={faLanguage} size='5x' style={{color: "#d94039",}} /></>) : (<><FontAwesomeIcon icon={faSignIn} size='5x' style={{color: "#d94039",}} /> <Login /> </>)}
+                     
 
                     </span>
                          
@@ -100,6 +205,30 @@ const HomePage = () => {
                     </div>
                         
                      </div>
+                     <div className="table-div">
+                        <h1 className='score-text'>Kullanıcı Skorları</h1>
+                     <table>
+                        <thead>
+                            <tr>
+                            <th>Kullanıcı Adı</th>
+                            <th>Skor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {usersData.map((user) => (
+                            <tr key={user.username}>
+                                <td> {user.username} </td>
+                                <td>: {user.score} </td>
+                            </tr>
+                            ))}
+                        </tbody>
+                        </table>
+                     </div>
+                     <div className=' footer table-div'>
+                        <h3 className='score-text'>Egehan KAHRAMAN tarafından sevgi ile...</h3>
+
+                     </div>
+
                      </center>
              </div>
 
