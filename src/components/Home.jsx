@@ -15,7 +15,7 @@ const HomePage = () => {
     const [show, setShow] = useState(false);
     const [kelimeshow, setKelimeShow] = useState(false);
     const [user, setUser] = useState(null);
-    const [clientScore, setClientScore] = useState(0);  
+    const [clientScore, setClientScore] = useState(1);  
     const [usersData, setUsersData] = useState([]);
 
     
