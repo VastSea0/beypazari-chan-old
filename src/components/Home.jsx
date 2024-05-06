@@ -138,6 +138,7 @@ const handleVeriKaydet = async () => {
         return(<RandomCat></RandomCat>)
     }
 
+    const sortedUsersData = usersData.sort((a, b) => b.score - a.score);
 
       
     return(
@@ -205,9 +206,9 @@ const handleVeriKaydet = async () => {
                     </div>
                         
                      </div>
-                     <div className="table-div">
+                     <div className="table-div"> 
                         <h1 className='score-text'>Kullanıcı Skorları</h1>
-                     <table>
+                     <table> 
                         <thead>
                             <tr>
                             <th>Kullanıcı Adı</th>
@@ -215,17 +216,19 @@ const handleVeriKaydet = async () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {usersData.map((user) => (
-                            <tr key={user.username}>
-                                <td> {user.username} </td>
-                                <td>: {user.score} </td>
-                            </tr>
-                            ))}
+                        <tbody>
+  {sortedUsersData.map((user) => (
+    <tr key={user.username}>
+      <td>{user.username}</td>
+      <td>: {user.score}</td>
+    </tr>
+  ))}
+</tbody>
                         </tbody>
                         </table>
                      </div>
                      <div className=' footer table-div'>
-                        <h3 className='score-text'>Egehan KAHRAMAN tarafından sevgi ile... ❤️ </h3>
+                        <h3 className='score-text'>Egehan KAHRAMAN tarafından sevgi ile...</h3>
 
                      </div>
 
