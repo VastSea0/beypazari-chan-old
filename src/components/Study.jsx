@@ -220,7 +220,7 @@ const Study = () => {
   useEffect(() => {
     const saklananSkor = localStorage.getItem('skor');
     if (saklananSkor) {
-      setClientScore(parseInt(saklananSkor)); // Saklanan skoru sayıya dönüştürün
+      setClientScore(parseInt(saklananSkor)); //  Saklanan skoru sayıya dönüştürün
     }
   }, []);
   
