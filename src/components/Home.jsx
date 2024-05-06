@@ -225,7 +225,7 @@ const handleVeriKaydet = async () => {
                         </table>
                      </div>
                      <div className=' footer table-div'>
-                        <h3 className='score-text'>Egehan KAHRAMAN tarafından sevgi ile...</h3>
+                        <h3 className='score-text'>Egehan KAHRAMAN tarafından sevgi ile... ❤️ </h3>
 
                      </div>
 
