@@ -25,7 +25,7 @@ const KelimeCalis = () => {
   const [heloShow, setHeloShow] = useState(false);
   // Yanlış mesajı gösterme durumu ve setlenmesi
   const [wrongMessageVisible, setWrongMessageVisible] = useState(false);  
-  // sayi falan
+  // sayi  falan
   const [sayiVal, setSayiVal] = useState(1);
  
   // Oturum bilgilerini çek ve yaz
