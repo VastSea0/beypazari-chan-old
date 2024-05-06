@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Loading from './Loading';
 
 import Login from './login';
-
+import "../styles/Zirve.css"
 const RandomCat = () => {
   const [cat, setCat] = useState('');
   const [loading, setLoading] = useState(undefined);
@@ -54,9 +54,10 @@ const RandomCat = () => {
   }
 
   return (
-    <div className="App">
-      <h3 style={{marginTop: '2rem', color: 'white'}}>Oturum acana kadar kedi alabilirsin :></h3>
-      <button onClick={getCat} style={btnStyle}>KEDI AL(meow)</button>
+    <div className="cat">
+        <center>
+        <h3 style={{marginTop: '2rem', color: 'white'}}>Oturum acana kadar kedi alabilirsin :></h3>
+       <button onClick={getCat} style={btnStyle}>KEDI AL(meow)</button>
       <div style={catContainer} className="cat-pic">
         {!done ? (
           <Loading loading={loading} />
@@ -65,6 +66,7 @@ const RandomCat = () => {
         )}
       </div>
       <Login></Login>
+        </center>
     </div>
   )
 }
