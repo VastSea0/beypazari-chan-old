@@ -201,6 +201,22 @@ html, body{
   align-items: center;
   font-size: 28px;
 }
+
+.glass {
+  background: rgba(255, 255, 255, 0.17);
+ 
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6.8px);
+  -webkit-backdrop-filter: blur(6.8px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+   
+  justify-content: center; 
+  align-items: center;
+  font-size: 28px;
+}
+
 a, t{
   color: white;
   font-family: "Lilita One", sans-serif;
@@ -210,8 +226,8 @@ a, t{
 }
 
 .row {
-  display: flex; /* Make each row a flex container */
-  justify-content: space-between; /* Distribute elements evenly horizontally */
+  display: flex;  
+  justify-content: space-between; 
 }
 
  
@@ -278,11 +294,11 @@ input[type="range"] {
 
  
 
-.table th,
-.table td {
+.table th, 
+.table td { 
   padding: 10px; /* Hücrelere dolgu ekle */
   border: 1px solid #ddd; /* Hücrelere kenarlık ekle */
-  text-align: left; /* Metni sola hizala */
+  text-align: left; /* Metni sxcola cdfhizala  */
 }
 
 .thead,  .th {
@@ -302,7 +318,64 @@ input[type="range"] {
 
 }
 .footer {
-  position: fixed; /* Sabitleme için fixed pozisyon */
-  bottom: 0; /* Alttan 0 piksel boşluk */
-  width: 100%; /* Tam genişlik */
+  position: fixed;  
+  bottom: 0; 
+  width: 100%;  
 }
+
+.textarea {
+  width: 100%;
+  max-height: 150px;
+  border-radius: 30px;
+}
+
+.posts {
+  margin: 5px 5px 5px, 5px;
+  padding: 50px ,5px ,5px, 5px;
+ 
+}
+.post-text {
+  background-color: #5183b8;
+  padding-left: 50px;
+}
+
+.post-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 500px;  
+  padding: 10px;  
+}
+.post-user h5{
+  flex: 1;  
+  padding: 10px; 
+  text-align: center;  
+}
+
+.post-likes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 500px;  
+  padding: 10px;  
+}
+.post-likes button{
+  flex: 1;  
+  padding: 10px;  
+  margin: 5px;
+  text-align: center;  
+}
+
+.btn-like {
+  justify-content: center; 
+  align-items: center;
+  border-radius: 15px;
+  min-height: 30px;
+  min-width: 150px;
+  border: 0px solid black;
+  background-color: #6566a7;
+  color: #d8d6d8;
+  transition: background-color 0.3s ease, color 0.3s ease;  
+}
+
+ 
