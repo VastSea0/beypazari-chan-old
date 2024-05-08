@@ -19,7 +19,7 @@ const Header = () => {
           })
           .catch((error) => {
             console.error('Oturum kapatma hatası:', error);
-          });
+          }); 
     };
     return(
             <div className="header navbar">
@@ -31,9 +31,12 @@ const Header = () => {
                 <div className="logo">
                     <img src={logo}  style={{borderRadius:"50%"}}></img>
                 </div>
+                <a href="/" style={{color:"white"}}> 
                 <h1 className="home-text"> 
                         Anasayfa  
                 </h1>
+                </a>
+               
                 <button  className="btn " onClick={() => {handleLogout()}}>
                         <FontAwesomeIcon icon={faPowerOff} size="xl" style={{color: "#d94039",}} />
                     </button>
