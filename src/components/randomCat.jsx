@@ -31,10 +31,7 @@ const RandomCat = () => {
   }
 
   // Style
-  const catContainer = {
-    maxWidth: '30rem',
-    margin: '2rem auto',
-  }
+   
 
   const catImage = {
     width: '100%',
@@ -54,17 +51,10 @@ const RandomCat = () => {
   }
 
   return (
-    <div className="cat">
+    <div className="container">
         <center>
-        <h3 style={{marginTop: '2rem', color: 'white'}}>Oturum acana kadar kedi alabilirsin :></h3>
-       <button onClick={getCat} style={btnStyle}>KEDI AL(meow)</button>
-      <div style={catContainer} className="cat-pic">
-        {!done ? (
-          <Loading loading={loading} />
-        ) : (
-          <img style={catImage} src={cat} alt="cat"/>
-        )}
-      </div>
+        
+      <br></br>
       <Login></Login>
         </center>
     </div>
